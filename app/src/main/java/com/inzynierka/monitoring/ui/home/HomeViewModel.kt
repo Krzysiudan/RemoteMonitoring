@@ -1,4 +1,4 @@
-package com.inzynierka.monitoring.ui.Home
+package com.inzynierka.monitoring.ui.home
 
 import androidx.lifecycle.ViewModel
 

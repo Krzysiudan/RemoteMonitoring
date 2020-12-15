@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sensors">
+        <item>@string/distance</item>
+        <item>@string/humidity</item>
+        <item>@string/temperature</item>
+        <item>@string/temperature_index</item>
+        <item>@string/obstacles</item>
+        <item>@string/magnetic_field</item>
+        <item>@string/photo_resistor</item>
+    </string-array>
+
+    <integer-array name="sensor_imgs">
+        <item>@drawable/ic__01_distance</item>
+        <item>@drawable/ic__02_humidity</item>
+        <item>@drawable/ic__03_temperature</item>
+        <item>@drawable/ic__04_temperature_index</item>
+        <item>@drawable/ic__05_obstacle</item>
+        <item>@drawable/ic__06_magnetic_field</item>
+        <item>@drawable/ic__07_photo_resistor</item>
+    </integer-array>
+</resources>
