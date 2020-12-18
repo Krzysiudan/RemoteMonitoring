@@ -9,13 +9,17 @@
         android:id="@+id/nav_home"
         android:name="com.inzynierka.monitoring.ui.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_nav_home_to_nav_sensor_readings"
+            app:destination="@id/nav_sensor_readings" />
+    </fragment>
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.inzynierka.monitoring.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_sensor_readings"
+        android:name="com.inzynierka.monitoring.ui.sensorreadings.SensorReadingsFragment"
+        android:label="@string/sensor_readings"
+        tools:layout="@layout/fragment_sensor_readings" />
 
     <fragment
         android:id="@+id/nav_slideshow"

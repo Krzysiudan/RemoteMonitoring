@@ -4,7 +4,14 @@
 #
 # For more details, see
 #   http://developer.android.com/guide/developing/tools/proguard.html
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public class * extends com.bumptech.glide.module.AppGlideModule
+-keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}
 
+-dontwarn com.bumptech.glide.load.resource.bitmap.VideoDecoder
 # If your project uses WebView with JS, uncomment the following
 # and specify the fully qualified class name to the JavaScript interface
 # class:

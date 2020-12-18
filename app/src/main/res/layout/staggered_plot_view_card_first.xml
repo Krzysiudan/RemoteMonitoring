@@ -3,10 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="@android:color/transparent"
-    app:cardElevation="0dp"
+    app:cardBackgroundColor="@color/blueberry"
+    app:cardElevation="1dp"
     app:cardPreventCornerOverlap="true"
-    android:descendantFocusability="blocksDescendants">
+    android:descendantFocusability="blocksDescendants"
+    android:layout_margin="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,11 +18,11 @@
             android:id="@+id/sensor_image"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:contentDescription="@string/sensor_image"
-            android:scaleType="centerCrop"
+            android:scaleType="fitCenter"
             android:adjustViewBounds="true"
             android:clickable="false"
             android:focusable="false"
+            android:padding="6dp"
             android:focusableInTouchMode="false" />
 
 
@@ -36,7 +37,7 @@
             android:clickable="false"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:padding="16dp" />
+            android:padding="8dp" />
 
 
     </LinearLayout>

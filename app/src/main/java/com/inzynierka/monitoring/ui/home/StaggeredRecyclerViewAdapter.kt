@@ -11,8 +11,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide.with
 import com.inzynierka.monitoring.R
-import com.inzynierka.monitoring.data.SensorReading
+import com.inzynierka.monitoring.services.GlideApp
+import com.inzynierka.monitoring.services.GlideApp.with
+
+import com.inzynierka.monitoring.services.MyGlideApp
 
 class StaggeredRecyclerViewAdapter internal constructor(
     private val context: Context,
@@ -53,7 +57,6 @@ class StaggeredRecyclerViewAdapter internal constructor(
     }
 
     override fun getItemCount(): Int {
-        Log.d(TAG, "getItemCount:${sensorsList.indexCount} ")
         return sensorsList.length()
     }
 
@@ -61,9 +64,7 @@ class StaggeredRecyclerViewAdapter internal constructor(
         val currentSensor: String = sensorsList.getString(position).toString()
         Log.d(TAG, "Function onBindViewHolder: currentSensor - $currentSensor")
         holder.sensorTittle.text = currentSensor
-        holder.sensorImage.setImageResource(sensorsImages.getResourceId(position,0))
-
-           //TODO try with glide Glide.with(context).load(photoUri).into(holder.sensorImage)
+        GlideApp.with(context).load(sensorsImages.getResourceId(position,0)).into(holder.sensorImage)
     }
 
 }
