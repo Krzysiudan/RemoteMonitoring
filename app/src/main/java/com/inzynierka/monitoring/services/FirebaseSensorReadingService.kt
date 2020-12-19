@@ -71,7 +71,7 @@ class FirebaseSensorReadingService(val sensorName: String = "") {
                             if(referenceTimeStamp!=null && sensorReading !=null){
                                 val subtractedTime: Float = ((sensorReading.time)-referenceTimeStamp).toFloat()
                                 Log.d(TAG, "getSensorReadings onChildAdded: subtractedTime : $subtractedTime ")
-                                val timestamp: Float = String.format("%.7f",subtractedTime).toFloat()
+                                val timestamp: Float = String.format("%.7f",subtractedTime).toFloat().div(1000F)
                                 Log.d(TAG, "getSensorReadings onChildAdded: timestamp : $timestamp ")
                                 val entryDataChart: Entry = Entry(timestamp,sensorReading.value.toFloat())
                                 Log.d(TAG, "getSensorReadings onChildAdded entryDataChart: $entryDataChart")
