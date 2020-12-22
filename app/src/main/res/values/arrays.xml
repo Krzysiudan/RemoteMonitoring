@@ -4,10 +4,10 @@
         <item>@string/distance</item>
         <item>@string/humidity</item>
         <item>@string/temperature</item>
-        <item>@string/temperature_index</item>
-        <item>@string/obstacles</item>
+        <item>@string/temp_index</item>
+        <item>@string/obstacle</item>
         <item>@string/magnetic_field</item>
-        <item>@string/photo_resistor</item>
+        <item>@string/photoresist</item>
     </string-array>
 
     <integer-array name="sensor_imgs">

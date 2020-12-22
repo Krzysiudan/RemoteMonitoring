@@ -1,6 +1,7 @@
 package com.inzynierka.monitoring.ui.home
 
 import android.content.Context
+import android.content.res.Resources
 import android.content.res.TypedArray
 import android.graphics.Point
 import android.net.Uri
@@ -17,6 +18,8 @@ import com.inzynierka.monitoring.services.GlideApp
 import com.inzynierka.monitoring.services.GlideApp.with
 
 import com.inzynierka.monitoring.services.MyGlideApp
+import com.inzynierka.monitoring.util.LocalizedResourcesService
+import java.util.*
 
 class StaggeredRecyclerViewAdapter internal constructor(
     private val context: Context,
@@ -35,7 +38,7 @@ class StaggeredRecyclerViewAdapter internal constructor(
 
         init {
             itemView.setOnClickListener {
-                onItemClick?.invoke(sensorsList.getString(adapterPosition).toString())
+                onItemClick?.invoke(getSensorNameInEnglish(adapterPosition))
             }
 
         }
@@ -65,6 +68,15 @@ class StaggeredRecyclerViewAdapter internal constructor(
         Log.d(TAG, "Function onBindViewHolder: currentSensor - $currentSensor")
         holder.sensorTittle.text = currentSensor
         GlideApp.with(context).load(sensorsImages.getResourceId(position,0)).into(holder.sensorImage)
+    }
+
+    private fun getSensorNameInEnglish(position: Int):String{
+        val resourceId = sensorsList.getResourceId(position,0)
+        val englishResource : Resources = LocalizedResourcesService.getLocalizedResources(context,
+            Locale.ENGLISH)
+        val sensorInEnglish = englishResource.getString(resourceId)
+        Log.d(TAG, "getSensorNameInEnglish: $sensorInEnglish ")
+        return sensorInEnglish
     }
 
 }

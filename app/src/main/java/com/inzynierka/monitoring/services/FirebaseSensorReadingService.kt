@@ -4,12 +4,15 @@ import android.util.Log
 import com.github.mikephil.charting.data.Entry
 import com.google.firebase.database.*
 import com.inzynierka.monitoring.data.SensorReading
+import com.inzynierka.monitoring.util.LocalizedResourcesService
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.collect
 import okhttp3.Dispatcher
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.coroutines.CoroutineContext
 
 @ExperimentalCoroutinesApi
@@ -58,6 +61,7 @@ class FirebaseSensorReadingService(val sensorName: String = "") {
                 Log.e(TAG, "Error initialization firebase ",e )
                 close(e)
             }
+            Log.d(TAG, "getSensorReadings: sensorPath $sensorPath")
 
 
                     val readingsChildEventListener = object :ChildEventListener{
@@ -72,7 +76,7 @@ class FirebaseSensorReadingService(val sensorName: String = "") {
                                 try{
                                     val subtractedTime: Float = ((sensorReading.time)-referenceTimeStamp).toFloat()
                                     Log.d(TAG, "getSensorReadings onChildAdded: subtractedTime : $subtractedTime ")
-                                    val timestamp: Float = String.format("%.7f",subtractedTime).toFloat().div(1000F)
+                                    val timestamp: Float = String.format(Locale.US,"%.7f",subtractedTime).toFloat().div(1000F)
                                     Log.d(TAG, "getSensorReadings onChildAdded: timestamp : $timestamp ")
                                     val entryDataChart: Entry = Entry(timestamp,sensorReading.value.toFloat())
                                     Log.d(TAG, "getSensorReadings onChildAdded entryDataChart: $entryDataChart")
@@ -107,6 +111,9 @@ class FirebaseSensorReadingService(val sensorName: String = "") {
             }
                 }
                 }
+
+
+
 
 
 }

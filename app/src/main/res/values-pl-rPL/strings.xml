@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="distance_sensor">Odległość</string>
+
     <string name="app_name">Zdalny monitoring</string>
     <string name="sensor_readings">pomiary czujników</string>
-    <string name="photo_resistor">Fotorezystor</string>
+    <string name="photoresist">Fotorezystor</string>
     <string name="magnetic_field">Pole magnetyczne</string>
-    <string name="obstacles">Przeszkody</string>
-    <string name="temperature_index">Temperatura odczuwalna</string>
-    <string name="temperature">Temperature</string>
+    <string name="obstacle">Przeszkody</string>
+    <string name="temp_index">Temperatura odczuwalna</string>
+    <string name="temperature">Temperatura</string>
     <string name="humidity">Wilgotność</string>
     <string name="distance">Odległość</string>
 </resources>

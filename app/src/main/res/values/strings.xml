@@ -10,13 +10,13 @@
     <string name="sensor_image" translatable="false">sensor_imaeg</string>
     <string name="sensor_name" translatable="false">sensor_name</string>
 
-    <string name="distance_sensor">Distance</string>
+
     <string name="distance">Distance</string>
     <string name="humidity">Humidity</string>
     <string name="temperature">Temperature</string>
-    <string name="temperature_index">Temp index</string>
-    <string name="obstacles">Obstacle</string>
+    <string name="temp_index">Temp index</string>
+    <string name="obstacle">Obstacle</string>
     <string name="magnetic_field">Magnetic Field</string>
-    <string name="photo_resistor">PhotoResist</string>
+    <string name="photoresist">PhotoResist</string>
     <string name="sensor_readings">sensor readings</string>
 </resources>

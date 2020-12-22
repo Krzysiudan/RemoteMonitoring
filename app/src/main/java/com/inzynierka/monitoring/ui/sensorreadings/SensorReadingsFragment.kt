@@ -20,6 +20,7 @@ import com.inzynierka.monitoring.R
 import com.inzynierka.monitoring.util.SubscribeEvent
 import com.inzynierka.monitoring.util.charts.AxisValueFormatter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import java.util.*
 
 @ExperimentalCoroutinesApi
 class SensorReadingsFragment : Fragment(), SubscribeEvent {
@@ -27,7 +28,7 @@ class SensorReadingsFragment : Fragment(), SubscribeEvent {
     private val TAG = "SensorReadingFragment"
     private val args: SensorReadingsFragmentArgs by navArgs()
     private val sensorReadingsViewModel: SensorReadingsViewModel by viewModels { SensorReadingsViewModelFactory(args.sensorName) }
-    private lateinit var sensorName : String
+    private lateinit var sensorNameInLocale : String
     private lateinit var lineChart: LineChart
     private lateinit var lineData: LineData
     private lateinit var dataSet: LineDataSet
@@ -41,7 +42,7 @@ class SensorReadingsFragment : Fragment(), SubscribeEvent {
         lineChart = root.findViewById<LineChart>(R.id.graph)
         lineData = LineData()
         sensorReadingsViewModel.subscribeEvent.setEventReceiver(this,this)
-        sensorName = args.sensorName
+        sensorNameInLocale = getSensorNameInLocale(args.sensorName)
 
 
         return root
@@ -52,12 +53,10 @@ class SensorReadingsFragment : Fragment(), SubscribeEvent {
         val xAxis = lineChart.xAxis
         xAxis.valueFormatter = AxisValueFormatter(referenceTimeStamp)
         sensorReadingsViewModel.sensorReadings.observe(viewLifecycleOwner, Observer {
-           /* it.forEach {
-                Log.d(TAG, "subscribeLiveData: entry : $it")
-            }*/
+
             if (it != null) {
                 if (it.isNotEmpty()) {
-                    dataSet = LineDataSet(it, sensorName)
+                    dataSet = LineDataSet(it, sensorNameInLocale)
                     Log.d(TAG, "subscribeLiveData: setting entry to chart")
                     dataSet.setColor(ContextCompat.getColor(requireContext(), R.color.indigo_ink))
                     lineData.addDataSet(dataSet)
@@ -72,4 +71,19 @@ class SensorReadingsFragment : Fragment(), SubscribeEvent {
             }
         })
 }
+
+    private fun getSensorNameInLocale(sensorName: String): String{
+        var transformedName = sensorName.toLowerCase(Locale.getDefault())
+        Log.d(TAG, "getSensorNameInLocale: transformedName: $transformedName")
+        transformedName = transformedName.replace(" ","_")
+        Log.d(TAG, "getSensorNameInLocale: transformedName after replace: $transformedName")
+        val nameId: Int = resources.getIdentifier(transformedName,"string",requireContext().packageName)
+        Log.d(TAG, "getSensorNameInLocale: nameId: $nameId")
+        var sensorNameInLocale = sensorName
+        if(nameId !=0){
+            sensorNameInLocale = resources.getString(nameId)
+        }
+        Log.d(TAG, "getSensorNameInLocale: sensorNameInLocale: $sensorNameInLocale")
+        return sensorNameInLocale
+    }
 }
