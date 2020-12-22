@@ -71,7 +71,7 @@ class HomeFragment : Fragment() {
     private fun setupOnItemClick(adapter: StaggeredRecyclerViewAdapter) {
 
         recyclerViewAdapter.onItemClick = { sensorName ->
-            val action =  HomeFragmentDirections.actionNavHomeToNavSensorReadings()
+            val action =  HomeFragmentDirections.actionNavHomeToNavSensorReadings(sensorName)
             findNavController().navigate(action)
         }
     }

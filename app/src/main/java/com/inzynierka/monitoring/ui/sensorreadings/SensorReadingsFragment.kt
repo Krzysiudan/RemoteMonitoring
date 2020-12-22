@@ -8,8 +8,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
@@ -22,8 +24,10 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalCoroutinesApi
 class SensorReadingsFragment : Fragment(), SubscribeEvent {
 
-    private lateinit var sensorReadingsViewModel: SensorReadingsViewModel
     private val TAG = "SensorReadingFragment"
+    private val args: SensorReadingsFragmentArgs by navArgs()
+    private val sensorReadingsViewModel: SensorReadingsViewModel by viewModels { SensorReadingsViewModelFactory(args.sensorName) }
+    private lateinit var sensorName : String
     private lateinit var lineChart: LineChart
     private lateinit var lineData: LineData
     private lateinit var dataSet: LineDataSet
@@ -33,12 +37,11 @@ class SensorReadingsFragment : Fragment(), SubscribeEvent {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        sensorReadingsViewModel =
-                ViewModelProvider(this).get(SensorReadingsViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_sensor_readings, container, false)
         lineChart = root.findViewById<LineChart>(R.id.graph)
         lineData = LineData()
         sensorReadingsViewModel.subscribeEvent.setEventReceiver(this,this)
+        sensorName = args.sensorName
 
 
         return root
@@ -54,7 +57,7 @@ class SensorReadingsFragment : Fragment(), SubscribeEvent {
             }*/
             if (it != null) {
                 if (it.isNotEmpty()) {
-                    dataSet = LineDataSet(it, "Temperature")
+                    dataSet = LineDataSet(it, sensorName)
                     Log.d(TAG, "subscribeLiveData: setting entry to chart")
                     dataSet.setColor(ContextCompat.getColor(requireContext(), R.color.indigo_ink))
                     lineData.addDataSet(dataSet)
@@ -67,8 +70,6 @@ class SensorReadingsFragment : Fragment(), SubscribeEvent {
                     lineChart.invalidate()
                 }
             }
-
-
         })
 }
 }

@@ -69,14 +69,22 @@ class FirebaseSensorReadingService(val sensorName: String = "") {
 
                             Log.d(TAG, "getSensorReadings onChildAdded firstTimeStamp: $referenceTimeStamp")
                             if(referenceTimeStamp!=null && sensorReading !=null){
-                                val subtractedTime: Float = ((sensorReading.time)-referenceTimeStamp).toFloat()
-                                Log.d(TAG, "getSensorReadings onChildAdded: subtractedTime : $subtractedTime ")
-                                val timestamp: Float = String.format("%.7f",subtractedTime).toFloat().div(1000F)
-                                Log.d(TAG, "getSensorReadings onChildAdded: timestamp : $timestamp ")
-                                val entryDataChart: Entry = Entry(timestamp,sensorReading.value.toFloat())
-                                Log.d(TAG, "getSensorReadings onChildAdded entryDataChart: $entryDataChart")
-                                entryArray.add(entryDataChart)
-                                offer(entryArray)
+                                try{
+                                    val subtractedTime: Float = ((sensorReading.time)-referenceTimeStamp).toFloat()
+                                    Log.d(TAG, "getSensorReadings onChildAdded: subtractedTime : $subtractedTime ")
+                                    val timestamp: Float = String.format("%.7f",subtractedTime).toFloat().div(1000F)
+                                    Log.d(TAG, "getSensorReadings onChildAdded: timestamp : $timestamp ")
+                                    val entryDataChart: Entry = Entry(timestamp,sensorReading.value.toFloat())
+                                    Log.d(TAG, "getSensorReadings onChildAdded entryDataChart: $entryDataChart")
+                                    entryArray.add(entryDataChart)
+                                    offer(entryArray)
+                                }catch (e: Throwable){
+                                    Log.d(
+                                        TAG,
+                                        "onChildAdded: formatting data to to entry went wrong, exception : $e"
+                                    )
+                                }
+
                             }
 
                         }
@@ -101,43 +109,4 @@ class FirebaseSensorReadingService(val sensorName: String = "") {
                 }
 
 
-
-    fun getFirstTimeStampForReference(sensorName: String){
-        var sensorPath : DatabaseReference? = null
-        var firstTimeStamp : Long? = null
-
-        try{
-            sensorPath = FirebaseDatabase.getInstance().reference.child(sensorName)
-        }catch (e: Throwable){
-            Log.e(TAG, "Error initialization firebase ",e )
-        }
-
-        val firstTimeStampQuery = sensorPath?.orderByChild("time")?.limitToFirst(1)
-
-        val firstTimeStampListener = object : ChildEventListener{
-            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                Log.d(TAG, "getFirstTimeStampForReference onChildAdded: DataSnapshot : ${snapshot.toString()}, previousChildName: $previousChildName")
-                val sensorReading = snapshot.getValue(SensorReading::class.java)
-                Log.d(TAG, "getFirstTimeStampForReference onChildAdded: sensorReading - $sensorReading")
-                firstTimeStamp = sensorReading?.time
-                Log.d(TAG, "getFirstTimeStampForReference onChildAdded: firstTimeStamp - $firstTimeStamp")
-                /*
-               val map = HashMap<String,SensorReading>()
-                for((key,value) in map){
-                    firstTimeStamp = value.timestamp.toInt()
-                }
-                Log.d(TAG, "Fun getFirstTimeStampForReference - timestamp: $firstTimeStamp ")
-*/
-            }
-            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
-            override fun onChildRemoved(snapshot: DataSnapshot) {}
-            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
-            override fun onCancelled(error: DatabaseError) {}
-
-        }
-
-        firstTimeStampQuery?.addChildEventListener(firstTimeStampListener)
-
-
-    }
 }

@@ -19,7 +19,13 @@
         android:id="@+id/nav_sensor_readings"
         android:name="com.inzynierka.monitoring.ui.sensorreadings.SensorReadingsFragment"
         android:label="@string/sensor_readings"
-        tools:layout="@layout/fragment_sensor_readings" />
+        tools:layout="@layout/fragment_sensor_readings" >
+
+        <argument
+            android:name="sensor_name"
+            app:argType="string"
+            android:defaultValue="0" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_slideshow"
