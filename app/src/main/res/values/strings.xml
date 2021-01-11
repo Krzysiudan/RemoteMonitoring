@@ -19,4 +19,6 @@
     <string name="magnetic_field">Magnetic Field</string>
     <string name="photoresist">PhotoResist</string>
     <string name="sensor_readings">sensor readings</string>
+    <string name="data_is_loading">Data is loading</string>
+    <string name="example_marker_text" translatable="false">YYYY-MM-DD HH-MM-SS</string>
 </resources>

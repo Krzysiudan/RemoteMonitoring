@@ -13,12 +13,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import com.google.android.material.button.MaterialButton
 import com.inzynierka.monitoring.R
 import com.inzynierka.monitoring.util.SubscribeEvent
 import com.inzynierka.monitoring.util.charts.AxisValueFormatter
+import com.inzynierka.monitoring.util.charts.ReadingsMarkerView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.util.*
 
@@ -33,6 +36,7 @@ class SensorReadingsFragment : Fragment(), SubscribeEvent {
     private lateinit var lineData: LineData
     private lateinit var dataSet: LineDataSet
 
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -40,9 +44,14 @@ class SensorReadingsFragment : Fragment(), SubscribeEvent {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_sensor_readings, container, false)
         lineChart = root.findViewById<LineChart>(R.id.graph)
+        lineChart.description.isEnabled = false
+        lineChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
+        lineChart.setNoDataText(getString(R.string.data_is_loading))
+        lineChart.setNoDataTextColor(ContextCompat.getColor(requireContext(),R.color.indigo_ink))
         lineData = LineData()
         sensorReadingsViewModel.subscribeEvent.setEventReceiver(this,this)
         sensorNameInLocale = getSensorNameInLocale(args.sensorName)
+
 
 
         return root
@@ -52,11 +61,14 @@ class SensorReadingsFragment : Fragment(), SubscribeEvent {
     override fun subscribeLiveData(referenceTimeStamp: Long) {
         val xAxis = lineChart.xAxis
         xAxis.valueFormatter = AxisValueFormatter(referenceTimeStamp)
+        val readingMarkerView: ReadingsMarkerView = ReadingsMarkerView(requireContext(),R.layout.marker_view_layout,referenceTimeStamp,lineChart)
+        lineChart.marker = readingMarkerView
         sensorReadingsViewModel.sensorReadings.observe(viewLifecycleOwner, Observer {
 
             if (it != null) {
                 if (it.isNotEmpty()) {
                     dataSet = LineDataSet(it, sensorNameInLocale)
+                    dataSet.setDrawValues(false)
                     Log.d(TAG, "subscribeLiveData: setting entry to chart")
                     dataSet.setColor(ContextCompat.getColor(requireContext(), R.color.indigo_ink))
                     lineData.addDataSet(dataSet)

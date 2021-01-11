@@ -27,7 +27,7 @@ class AxisValueFormatter(
 
     private fun getHour(timeStamp: Long): String {
         return try{
-            date.time = timeStamp*1000
+            date.time = timeStamp
             dataFormat.format(date)
         }catch (e : Exception){
             "xx"

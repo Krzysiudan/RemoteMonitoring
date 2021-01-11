@@ -10,4 +10,5 @@
     <string name="temperature">Temperatura</string>
     <string name="humidity">Wilgotność</string>
     <string name="distance">Odległość</string>
+    <string name="data_is_loading">Trwa ładowanie danych</string>
 </resources>
